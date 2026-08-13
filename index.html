@@ -143,15 +143,24 @@ a{ color: var(--aluminium); }
 
 .plate-logo{
   position: absolute;
-  top: 6px;
-  right: 6px;
-  height: 28px;
+  top: 0px;
+  right: 20px;
+  height: 120px;
   width: auto;
   opacity: 1;
 }
 
 .plate-car{
-  display: none;
+  position: absolute;
+  top: 82%;
+  right: 180px;
+  transform: translateY(-50%);
+  height: 102%;
+  max-height: 160px;
+  width: auto;
+  opacity: 0.03;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* ============ Tabs — rocker switch ============ */
@@ -349,6 +358,17 @@ button:focus-visible, .doc-thumb:focus-visible{
   .cell-date::before{ content: "Data · "; color: var(--text-dim); }
   .cell-mileage::before{ content: "Przebieg · "; color: var(--text-dim); }
   .cell-cost::before{ content: "Koszt · "; color: var(--text-dim); }
+
+  .plate-logo{
+    height: 28px;
+    top: 6px;
+    right: 6px;
+    opacity: 0.85;
+  }
+
+  .plate-car{
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -546,6 +566,7 @@ const DATA = {
       "note": "Polerowanie wszystkich elementów piano black z aplikacją folii PPF",
       "cost": 300,
       "workshop": "Expert Gloss, Wieliczka",
+      "images": []
     }
      ]
   
