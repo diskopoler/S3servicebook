@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Książka serwisowa — Audi S3 8Y</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="https://i.postimg.cc/YCsKdhDc/audi-32px.png">
+<style>
+  @font-face {
+  font-family: 'AudiType';
+  src: url('fonts/auditype_extendednormal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+  @font-face {
+  font-family: 'AudiType';
+  src: url('fonts/auditype_extendedbold.woff2') format('woff2');
+  font-weiht: 700;
+  font-style: normal;
+
+  }
+.plate-header{
+  position: relative;
+  overflow: hidden;
+  padding: 20px 20px 60px;
+  min-height: 25vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.video-bg{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.video-bg iframe,
+.video-bg video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-bg::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(21,23,26,.55) 0%, rgba(21,23,26,.85) 75%, rgba(21,23,26,1) 100%);
+}
+
+.plate{
+  position: relative;
+  z-index: 1;
+}
+/* ============ Tokens ============ */
+:root{
+  --bg:            #15171a;
+  --surface:       #1d2023;
+  --surface-alt:   #b0242a;
+  --hairline:      #23262a;
+  --text:          #ffffff;
+  --text-dim:      #ffffff;
+  --accent:        #b0242a;   /* Tango Red — real S3 8Y colour code */
+  --accent-dim:    #7a1a1f;
+  --aluminium:     #000000;
+
+  --font-display: 'AudiType', 'Oswald', sans-serif;
+  --font-body: 'AudiType', 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+*{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; }
+
+body{
+  margin: 0;
+  zoom: 1.25;
+  background: var(--bg);
+  background-image:
+    linear-gradient(var(--hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-attachment: fixed;
+  background-position: -1px -1px;
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a{ color: var(--aluminium); }
+
+
+.plate{
+  width: 100%;
+  max-width: 2000px;
+  background: rgba(29, 32, 35, 0.8);
+  border: 1px solid var(--hairline);
+  border-left: 5px solid var(--accent);
+  padding: 10px 10px 10px;
+  position: relative;
+}
+
+.plate-row{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.plate-code{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.plate-title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 40px);
+  letter-spacing: -0.05em;
+  margin: 10px 0 4px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.plate-title span{
+  color: var(--accent);
+}
+
+.plate-sub{
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.plate-logo{
+  position: absolute;
+  top: 0;
+  right: 20px;
+  height: 120px;
+  width: auto;
+  opacity: 1
+}
+
+.plate-car{
+  position: absolute;
+  top: 82%;
+  right: 180px;
+  transform: translateY(-50%);
+  height: 102%;
+  max-height: 160px;
+  width: auto;
+  opacity: 0.03;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ============ Tabs — rocker switch ============ */
+.tabs{
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto 8px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.tab-btn{
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  background: var(--surface);
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color .15s ease, background .15s ease;
+}
+
+.tab-index{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  opacity: .8;
+}
+
+.tab-btn:hover{ background: var(--surface-alt); color: var(--text); }
+
+.tab-btn.is-active{
+  background: var(--surface-alt);
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* ============ Main / panels ============ */
+main{
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  min-height: 700px;
+}
+
+.panel{ display: none; }
+.panel.is-active{ display: block; }
+
+.service-table{
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(29, 32, 35, 0.8);
+  border: 1px solid var(--hairline);
+  font-size: 12px;
+}
+
+.service-table thead th{
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--hairline);
+  font-weight: 500;
+}
+
+.service-table tbody td{
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+
+.service-table tbody tr{ transition: background-color 1s ease;}
+.service-table tbody tr:last-child td{ border-bottom: none; }
+.service-table tbody tr:hover{ background-color: var(--surface-alt); }
+
+.cell-date{ font-family: var(--font-mono); font-size: 10px; white-space: nowrap; }
+.cell-mileage{ font-family: var(--font-mono); font-size: 10px; color: var(--aluminium); white-space: nowrap; }
+.cell-cost{ font-family: var(--font-mono); font-size: 11px; color: var(--accent); white-space: nowrap; color: #ffffff }
+.cell-title{ font-weight: 500; }
+.cell-note{ display:block; margin-top: 4px; color: var(--text-dim); font-size: 8px; }
+
+.doc-thumb{
+  display: block;
+  width: 40px; height: 40px;
+  object-fit: cover;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  background: var(--surface-alt);
+  transition: border-color .15s ease;
+}
+.doc-thumb:hover{ border-color: var(--accent); }
+
+.doc-empty{
+  width: 40px; height: 40px;
+  border: 1px dashed var(--hairline);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-note{
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 18px 4px;
+}
+.empty-note code{ color: var(--aluminium); }
+
+/* ============ Footer ============ */
+.site-footer{
+  text-align: center;
+  padding: 30px 20px 50px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+}
+.site-footer code{ color: var(--aluminium); }
+
+/* ============ Lightbox ============ */
+.lightbox{
+  position: fixed; inset: 0;
+  background: rgba(10,11,12,.92);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 20px;
+  z-index: 50;
+}
+.lightbox[hidden]{ display: none; }
+
+.lightbox figure{ margin: 0; max-width: 720px; text-align: center; }
+.lightbox img{ max-width: 100%; max-height: 70vh; border: 1px solid var(--hairline); }
+.lightbox figcaption{
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.lightbox-close{
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: 1px solid var(--hairline);
+  color: var(--text); width: 36px; height: 36px;
+  cursor: pointer; font-size: 16px;
+}
+.lightbox-close:hover{ border-color: var(--accent); color: var(--accent); }
+
+.lightbox-nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 1px solid var(--hairline);
+  color: var(--text);
+  width: 44px; height: 44px;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-nav:hover{ border-color: var(--accent); color: var(--accent); }
+.lightbox-prev{ left: 24px; }
+.lightbox-next{ right: 24px; }
+
+/* ============ Focus visibility ============ */
+button:focus-visible, .doc-thumb:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 640px){
+  .tabs{ grid-template-columns: 1fr; }
+  .tab-btn{ padding: 14px; }
+  .service-table thead{ display: none; }
+  .service-table, .service-table tbody, .service-table tr, .service-table td{ display: block; width: 100%; }
+  .service-table tr{ border-bottom: 1px solid var(--hairline); padding: 12px 14px; }
+  .service-table td{ border: none; padding: 4px 0; }
+  .cell-date::before{ content: "Data · "; color: var(--text-dim); }
+  .cell-mileage::before{ content: "Przebieg · "; color: var(--text-dim); }
+  .cell-cost::before{ content: "Koszt · "; color: var(--text-dim); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *{ transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="plate-header">
+  <div class="video-bg">
+    <video autoplay muted loop playsinline>
+      <source src="audi-bg-v2.mp4" type="video/mp4">
+    </video>
+  </div>  
+
+  <div class="plate">
+    <img src="https://i.postimg.cc/157hRvxb/audi-mono-256px.png" alt="Audi" class="plate-logo">
+    <img src="https://i.postimg.cc/KY5pkGpK/audis3.png" alt="Audi S3 kontur" class="plate-car">
+    <div class="plate-row plate-row--top">
+    <span class="plate-code">VIN: WAUZZZGYXMA068705, data pierwszej rejestracji: 18.02.2021</span>
+    </div>
+    <h1 class="plate-title">Audi S3 <span>8Y </span></h1>
+    <p class="plate-code">Prywatna książka serwisowa</p>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Kategorie serwisów">
+  <button class="tab-btn is-active" data-tab="silnik" role="tab" aria-selected="true">
+    Silnik / Osprzęt
+  </button>
+  <button class="tab-btn" data-tab="zawieszenie" role="tab" aria-selected="false">
+    Zawieszenie
+  </button>
+  <button class="tab-btn" data-tab="eksploatacyjne" role="tab" aria-selected="false">
+    Serwisy eksploatacyjne
+  </button>
+</nav>
+
+<main>
+  <section class="panel is-active" id="panel-silnik" data-panel="silnik">
+    <table class="service-table">
+      <thead>
+        <tr><th>Data</th><th>Przebieg</th><th>Zakres pracy</th><th>Koszt</th><th>Warsztat</th><th>Dokumentacja</th></tr>
+      </thead>
+      <tbody id="tbody-silnik"></tbody>
+    </table>
+    <p class="empty-note" id="empty-silnik" hidden>Brak wpisów w tej kategorii — dodaj pierwszy w obiekcie <code>DATA</code> w kodzie strony.</p>
+  </section>
+
+  <section class="panel" id="panel-zawieszenie" data-panel="zawieszenie">
+    <table class="service-table">
+      <thead>
+        <tr><th>Data</th><th>Przebieg</th><th>Zakres pracy</th><th>Koszt</th><th>Warsztat</th><th>Dokumentacja</th></tr>
+      </thead>
+      <tbody id="tbody-zawieszenie"></tbody>
+    </table>
+    <p class="empty-note" id="empty-zawieszenie" hidden>Brak wpisów w tej kategorii — dodaj pierwszy w obiekcie <code>DATA</code> w kodzie strony.</p>
+  </section>
+
+  <section class="panel" id="panel-eksploatacyjne" data-panel="eksploatacyjne">
+    <table class="service-table">
+      <thead>
+        <tr><th>Data</th><th>Przebieg</th><th>Zakres pracy</th><th>Koszt</th><th>Warsztat</th><th>Dokumentacja</th></tr>
+      </thead>
+      <tbody id="tbody-eksploatacyjne"></tbody>
+    </table>
+    <p class="empty-note" id="empty-eksploatacyjne" hidden>Brak wpisów w tej kategorii — dodaj pierwszy w obiekcie <code>DATA</code> w kodzie strony.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Dane uzupełniane bezpośrednio w kodzie strony</span>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Zamknij">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Poprzednie">‹</button>
+  <figure>
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Następne">›</button>
+</div>
+
+<script>
+/* ============ DANE — edytuj tutaj, żeby dodać nowy serwis ============
+   Pole "images" to TABLICA zdjęć — możesz podać jedno, kilka, albo żadnego:
+     "images": []                                    -> brak zdjęcia
+     "images": ["images/faktura.jpg"]                 -> jedno zdjęcie
+     "images": ["images/faktura.jpg", "images/czesc.jpg"] -> kilka, ze slajdami w podglądzie
+   ====================================================================== */
+const DATA = {
+  "silnik": [
+    {
+      "date": "11.08.2024",
+      "mileage": 55988,
+      "title": "Wymiana świec zapłonowych",
+      "note": "Wymiana świec zapłonowych OE",
+      "cost": 0,
+      "workshop": "Audi Warszawa, Wilanów",
+      "images": []
+    },
+    {
+      "date": "26.08.2025",
+      "mileage": 64721,
+      "title": "Serwis nepędu i skrzyni DQ381",
+      "note": "Wymiana oleju DSG i napędu HALDEX",
+      "cost": "2140",
+      "workshop": "Serwis niezależny",
+      "images": []
+    },
+    { "date": "13.11.2025",
+      "mileage": 67322,
+      "title": "Wymiana akumulatora",
+      "note": "Wymiana akumulatora OE",
+      "cost": 1994.99,
+      "workshop": "Audi, Warszawa-Radzymińska",
+      "images": ["https://i.postimg.cc/25MRGFNg/Akumulatorserwis.png"]
+    },
+    { "date": "13.03.2026",
+      "mileage": 69821,
+      "title": "Wymiana oleju silnikowego",
+      "note": "VW 0E 0W30, OE filtr oleju, OE śruba miski olejowej",
+      "cost": 1436.48,
+      "workshop": "Porsche Inter Auto, Warszawa",
+      "images": ["https://i.postimg.cc/yNt4jXCM/Serwis.png"]
+    },
+    { "date": "13.08.2026",
+      "mileage": 79796,
+      "title": "Wymiana oleju silnikowego",
+      "note": "Millers EE Performance C3 0W30, OE filtr oleju, filtr powietrza MANN C 30 005, FEBI śruba miski olejowej",
+      "cost": 850,
+      "workshop": "Quattro Service, Kraków",
+      "images": ["https://i.postimg.cc/0NPLGkzM/olejserwis.png", "https://i.postimg.cc/FHjMJdH0/olejserwiswpis.png"]
+    }
+  ],
+  "zawieszenie": [
+    {
+      "date": "13.07.2026",
+      "mileage": 76684,
+      "title": "Geometria 3D",
+      "note": "Kontrolna geometria zawieszenia, przegląd stanu zawieszenia",
+      "cost": 180,
+      "workshop": "Motoisep12, Kraków",
+      "images": ["https://i.postimg.cc/J02Rwwfw/zbieznosc.png"]
+    },
+  ],
+  "eksploatacyjne": [
+    { "date": "18.07.2025",
+      "mileage": 63736,
+      "title": "Car detailing",
+      "note": "4 letnia powłoka elastomerowa firmy AQUA E-Coating ",
+      "cost": 3300,
+      "workshop": "Madness Detailing, Warszawa",
+      "images": ["https://i.postimg.cc/L5Mbnxj5/Screenshot-2026-08-11-185557.png"]
+    },
+    { "date": "07.26.2025",
+      "mileage": 63973,
+      "title": "Wymiana opon",
+      "note": "Bridgestone Potenza Sport 12/2025- 235/35 R19 komplet",
+      "cost": 2500,
+      "workshop": "Serwis niezależny",
+      "images": []
+    },
+    { "date": "17.03.2026",
+      "mileage": 70000,
+      "title": "Serwis hamulcowy",
+      "note": "Wymiany tarcz i klocków hamulcowych- przód i tył, BREMBO Xtry",
+      "cost": 2968,
+      "workshop": "Warsztat niezależny",
+      "images": []
+    },
+    { "date": "22.07.2026",
+      "mileage": 76985,
+      "title": "Serwis klimatyzacji",
+      "note": "Chemiczne czyszczenie układu klimatyzacji, wymiana filtru kabinowego MANN-Filter FP 26 009",
+      "cost": 272,
+      "workshop": "Auto Serwis Wszołek, Kraków",
+      "images": []
+    },
+    { "date": "30.07.2026",
+      "mileage": 77320,
+      "title": "Wymiana przewodów hamulcowych",
+      "note": "Przewody hamulcowe HEL w oplocie, dedykowane do modelu S3 8Y, płyn hamulcowy ATE 200 DOT4",
+      "cost": 1110,
+      "workshop": "KURO Luxury Tuning, Kraków",
+      "images": ["https://i.postimg.cc/Wzc8bt0t/Screenshot-2026-08-11-180938.png"]
+    },
+    { "date": "14.08.2026",
+      "mileage": 79855,
+      "title": "Korekta słupków B,C i dekorów bagażnika",
+      "note": "Polerowanie wszystkich elementów piano black z aplikacją folii PPF",
+      "cost": 300,
+      "workshop": "Expert Gloss, Wieliczka",
+    }
+     ]
+  
+};
+
+const CATEGORIES = ["silnik", "zawieszenie", "eksploatacyjne"];
+
+const fmtCost = (v) => v === null || v === undefined ? "—" :
+  new Intl.NumberFormat("pl-PL", { style: "currency", currency: "PLN", maximumFractionDigits: 0 }).format(v);
+
+const fmtMileage = (v) => v === null || v === undefined ? "—" :
+  new Intl.NumberFormat("pl-PL").format(v) + " km";
+
+const fmtDate = (iso) => {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString("pl-PL", { year: "numeric", month: "2-digit", day: "2-digit" });
+};
+
+function rowHTML(entry) {
+  const images = entry.images || [];
+  const docCell = images.length > 0
+    ? `<img class="doc-thumb" src="${images[0]}" alt="Dokumentacja: ${entry.title}" data-images='${JSON.stringify(images).replace(/'/g, "&#39;")}' data-caption="${entry.title} · ${fmtDate(entry.date)}">`
+    : `<span class="doc-empty" title="Brak zdjęcia">＋</span>`;
+
+  return `
+    <tr>
+      <td class="cell-date">${fmtDate(entry.date)}</td>
+      <td class="cell-mileage">${fmtMileage(entry.mileage)}</td>
+      <td class="cell-title">${entry.title}${entry.note ? `<span class="cell-note">${entry.note}</span>` : ""}</td>
+      <td class="cell-cost">${fmtCost(entry.cost)}</td>
+      <td>${entry.workshop || "—"}</td>
+      <td>${docCell}</td>
+    </tr>`;
+}
+
+function renderData() {
+  CATEGORIES.forEach((cat) => {
+    const entries = (DATA[cat] || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    const tbody = document.getElementById(`tbody-${cat}`);
+    const emptyNote = document.getElementById(`empty-${cat}`);
+    if (entries.length === 0) {
+      emptyNote.hidden = false;
+      tbody.closest("table").style.display = "none";
+    } else {
+      tbody.innerHTML = entries.map(rowHTML).join("");
+    }
+  });
+  bindLightbox();
+}
+
+function bindTabs() {
+  const buttons = document.querySelectorAll(".tab-btn");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => { b.classList.remove("is-active"); b.setAttribute("aria-selected", "false"); });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+      document.querySelectorAll(".panel").forEach((p) => p.classList.remove("is-active"));
+      document.getElementById(`panel-${btn.dataset.tab}`).classList.add("is-active");
+    });
+  });
+}
+
+function bindLightbox() {
+  const lightbox = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  const caption = document.getElementById("lightbox-caption");
+  const closeBtn = document.getElementById("lightbox-close");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
+
+  let currentImages = [];
+  let currentIndex = 0;
+  let currentCaption = "";
+
+  function showImage() {
+    img.src = currentImages[currentIndex];
+    const counter = currentImages.length > 1 ? ` (${currentIndex + 1}/${currentImages.length})` : "";
+    caption.textContent = currentCaption + counter;
+    const multi = currentImages.length > 1;
+    prevBtn.style.display = multi ? "flex" : "none";
+    nextBtn.style.display = multi ? "flex" : "none";
+  }
+
+  document.querySelectorAll(".doc-thumb").forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      try {
+        currentImages = JSON.parse(thumb.dataset.images || "[]");
+      } catch (e) {
+        currentImages = [];
+      }
+      currentIndex = 0;
+      currentCaption = thumb.dataset.caption || "";
+      if (currentImages.length === 0) return;
+      lightbox.hidden = false;
+      showImage();
+    });
+  });
+
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    showImage();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % currentImages.length;
+    showImage();
+  });
+
+  const close = () => { lightbox.hidden = true; img.src = ""; };
+  closeBtn.addEventListener("click", close);
+  lightbox.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (lightbox.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") prevBtn.click();
+    if (e.key === "ArrowRight") nextBtn.click();
+  });
+}
+
+bindTabs();
+renderData();
+</script>
+</body>
+</html>
